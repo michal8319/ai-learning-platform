@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const sequelize = require('./src/config/db');
 const models = require('./src/models'); // טעינת המודלים והקשרים
-
+const userRoutes = require('./src/routes/userRoutes');
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -21,3 +21,4 @@ sequelize.sync({ force: false }) // force: false שומר על הנתונים ה
   .catch(err => {
     console.error('Unable to connect to the database:', err);
   });
+  app.use('/api/users', userRoutes);
