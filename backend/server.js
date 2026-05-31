@@ -20,10 +20,14 @@ app.use(express.json()); // מאפשר לקרוא בקשות JSON
 // 6. ייבוא הראוטרים (הנתיבים)
 const userRoutes = require('./src/routes/userRoutes');
 const learningRoutes = require('./src/routes/learningRoutes');
+const categoryRoutes = require('./src/routes/categoryRoutes');
+const adminRoutes = require('./src/routes/adminRoutes');
 
-// 7. חיבור הראוטרים לאפליקציה (רק אחרי ש-app וגם הראוטרים הוגדרו!)
+// 7. חיבור הראוטרים לאפליקציה
 app.use('/api/users', userRoutes);
 app.use('/api/learning', learningRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/admin', adminRoutes);
 
 const PORT = process.env.PORT || 5000;
 
