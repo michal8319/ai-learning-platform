@@ -6,7 +6,7 @@ exports.login = async (req, res) => {
         const { name, phone } = req.body;
 
         // בדיקה בסיסית שקיבלנו נתונים
-        if (!name || !phone) {
+        if (!name?.trim() || !phone?.trim()) {
             return res.status(400).json({ error: 'נא לספק שם ומספר טלפון' });
         }
 

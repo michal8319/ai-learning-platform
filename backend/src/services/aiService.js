@@ -1,29 +1,27 @@
-const { OpenAI } = require('openai');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, // המפתח יישמר בקובץ .env שלנו
-});
+// אתחול עם המפתח מה-.env
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 exports.generateLearningContent = async (category, subCategory) => {
   try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo", // או gpt-4
-      messages: [
-        {
-          role: "system",
-          content: "You are a helpful learning assistant. Provide clear and educational content."
-        },
-        {
-          role: "user",
-          content: `Explain the topic of ${subCategory} in the field of ${category}.`
-        }
-      ],
-      max_tokens: 500
-    });
+    // שימוש במודל gemini-pro היציב והחינמי
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-    return response.choices[0].message.content;
+    const sanitizedCategory = String(category).slice(0, 200);
+    const sanitizedSubCategory = String(subCategory).slice(0, 200);
+    const prompt = `הסבר בצורה לימודית ומפורטת על הנושא ${sanitizedSubCategory} מתוך עולם ה-${sanitizedCategory}.`;
+
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('AI request timed out')), 30000)
+    );
+
+    const result = await Promise.race([model.generateContent(prompt), timeoutPromise]);
+    const response = result.response;
+
+    return response.text();
   } catch (error) {
-    console.error('AI Service Error:', error);
-    throw new Error('Failed to generate content from AI');
+    console.error('Gemini Service Error:', error);
+    throw new Error('נכשלה הפקת תוכן מ-Gemini');
   }
 };

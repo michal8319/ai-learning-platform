@@ -12,21 +12,17 @@ const SubCategory = sequelize.define('SubCategory', {
         type: DataTypes.STRING, 
         allowNull: false 
     },
-    category_id: { 
+    category_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'categories', // שם הטבלה כפי שהוגדר ב-Category.js
+            model: 'categories',
             key: 'id'
         }
     }
-}, { 
-    tableName: 'sub_categories', 
-    timestamps: false 
+}, {
+    tableName: 'sub_categories',
+    timestamps: false
 });
-
-// הגדרת הקשרים (Relationships) - זה חלק קריטי בדרישות הפרויקט 
-Category.hasMany(SubCategory, { foreignKey: 'category_id' });
-SubCategory.belongsTo(Category, { foreignKey: 'category_id' });
 
 module.exports = SubCategory;
