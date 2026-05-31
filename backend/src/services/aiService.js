@@ -5,8 +5,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 exports.generateLearningContent = async (category, subCategory) => {
   try {
-    // שימוש במודל gemini-pro היציב והחינמי
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const sanitizedCategory = String(category).slice(0, 200);
     const sanitizedSubCategory = String(subCategory).slice(0, 200);
@@ -21,7 +20,7 @@ exports.generateLearningContent = async (category, subCategory) => {
 
     return response.text();
   } catch (error) {
-    console.error('Gemini Service Error:', error);
-    throw new Error('נכשלה הפקת תוכן מ-Gemini');
+    console.error('Gemini Service Error:', error.message || error);
+    throw new Error(`נכשלה הפקת תוכן מ-Gemini: ${error.message}`);
   }
 };
