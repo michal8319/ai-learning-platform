@@ -5,7 +5,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 exports.generateLearningContent = async (category, subCategory) => {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     const sanitizedCategory = String(category).slice(0, 200);
     const sanitizedSubCategory = String(subCategory).slice(0, 200);
