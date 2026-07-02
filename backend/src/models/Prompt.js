@@ -23,8 +23,9 @@ const Prompt = sequelize.define('Prompt', {
         type: DataTypes.TEXT, 
         allowNull: false 
     },
-    response: { 
-        type: DataTypes.TEXT // כאן תישמר התשובה שנקבל מה-AI
+    response: {
+        type: DataTypes.TEXT,
+        allowNull: true
     },
     created_at: { 
         type: DataTypes.DATE, 
